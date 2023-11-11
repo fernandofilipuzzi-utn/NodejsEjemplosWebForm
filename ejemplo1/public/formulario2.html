@@ -13,7 +13,13 @@
   <body>
 
     <div class="container">
-      <form class="form-inline" action="/form2" method="get" target="_blank">
+
+      <form class="form-inline">
+
+        <div>
+          <p id="Mensaje" ></p>
+        </div>
+
         <div class="form-group mb-2">
           <label for="inputNumero" class="sr-only">Numero</label>
           <input name="numero" id="inputNumero" type="number" class="form-control" placeholder="numero">
@@ -24,10 +30,46 @@
           <input name="texto" id="inputTexto" type="text" class="form-control" placeholder="Texto">
         </div>
     
-        <button type="submit" class="btn btn-primary mb-2">Enviar</button>
+        <button type="button" class="btn btn-primary mb-2" onclick="enviar()">Enviar</button>
       </form>
     </div>
 
+    <script>
+      function enviar() {
+        const numero = document.getElementById('inputNumero').value;
+        const texto = document.getElementById('inputTexto').value;
+        const mensaje = document.getElementById('Mensaje');
+
+        // Construir la URL del endpoint con los parámetros
+        const url = `http://localhost:3000/form?numero=${numero}&texto=${texto}`;
+  
+        
+        // Realizar la llamada GET con Fetch
+        fetch(url)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+         //   mensaje.innerHTML="enviado";
+            console.log('enviado-1');
+            return response.json();
+          })
+          .then(data => {
+            console.log(data);
+            // Manejar la respuesta aquí
+      //      console.log('enviado-2');
+            mensaje.innerHTML="enviado";
+          })
+          .catch(error => {
+            console.error('Error during fetch operation:', error);
+          });
+         // mensaje.innerHTML="enviado";
+            console.log('enviado-3');
+     //   return false; // Esto evita la recarga de la página
+      }
+    </script>
+
+    
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
